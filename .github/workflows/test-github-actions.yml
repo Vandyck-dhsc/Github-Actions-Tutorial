@@ -1,1 +1,22 @@
+name: My First GitHub Action
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Say hello
+        run: echo "Hello, world!"
+
+      - name: Run multiple commands
+        run: |
+          echo "My first command"
+          echo "My second command"
