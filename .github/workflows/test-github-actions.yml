@@ -32,3 +32,6 @@ jobs:
           echo "${{ env.my_first_var }}"
           echo "${{ env.my_second_var }}"
           echo "${{ env.my_third_var }}"
+
+      - name: Fetch default environment variables
+        run: env
