@@ -35,3 +35,12 @@ jobs:
 
       - name: Fetch default environment variables
         run: env
+
+  test-default-vars:
+    name: Default env vars job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Example default env vars
+        run: |
+          echo "${{ env.GITHUB_ACTION }}"
