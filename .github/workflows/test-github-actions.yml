@@ -36,6 +36,10 @@ jobs:
       - name: Fetch default environment variables
         run: env
 
+      - name: Fetch my secrets
+        run: |
+          echo "MY FIRST SECRET": ${{secrets.MY_FIRST_SECRET}}
+
   test-default-vars:
     name: Default env vars job
     runs-on: ubuntu-latest
