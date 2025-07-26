@@ -11,10 +11,11 @@ jobs:
         run: echo "Hi, I am storing this data in this file, so I can use this in the subsequent jobs within this workflow run. I will upload this file to GitHub storage and download it from there when needed in this workflow run." > file.txt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: file
           path: file.txt
+          retention-days: 10
 
   download_artifact_job:
     name: Download Artifact
@@ -22,7 +23,7 @@ jobs:
     needs: upload_artifact_job
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: file
 
