@@ -43,4 +43,4 @@ jobs:
     steps:
       - name: Example default env vars
         run: |
-          echo "${{ env.GITHUB_ACTION }}"
+          echo "$GITHUB_ACTION"
