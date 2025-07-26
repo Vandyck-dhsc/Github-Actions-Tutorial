@@ -1,31 +1,25 @@
-name: Artifacts Tutorial
+name: Passing Values To Next Steps
 
 on: push
 
 jobs:
-  upload_artifact_job:
-    name: Upload Artifact
+  passing_values_btw_steps:
     runs-on: ubuntu-latest
-    steps:
-      - name: Create a local file
-        run: echo "Hi, I am storing this data in this file, so I can use this in the subsequent jobs within this workflow run. I will upload this file to GitHub storage and download it from there when needed in this workflow run." > file.txt
+    steps: 
+      - name: Set the value using ENV Vars
+        run: |
+          echo "variable_name=this-is-value" >> $GITHUB_ENV
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: file
-          path: file.txt
-          retention-days: 10
+      - name: Create Variables
+        id: var_source_step
+        run: |
+          echo "Performing a random task"
+          echo "var1_name=TechSchool" >> $GITHUB_OUTPUT
+          echo "var2_date=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_OUTPUT
 
-  download_artifact_job:
-    name: Download Artifact
-    runs-on: ubuntu-latest
-    needs: upload_artifact_job
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: file
-
-      - name: Show file contents
-        run: cat file.txt
+      - name: Get variable value
+        run: |
+          echo "Printing the values"
+          echo "variable_name: ${{ env.variable_name }}"
+          echo "var1_name: ${{ steps.var_source_step.outputs.var1_name }}"
+          echo "var2_date: ${{ steps.var_source_step.outputs.var2_date }}"
