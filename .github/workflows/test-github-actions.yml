@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+env:
+  my_first_var: first variable yay!
+  my_second_var: second variable yes!
+
 jobs:
   build-app:
     name: My first job
@@ -21,3 +25,8 @@ jobs:
         run: |
           echo "My first command"
           echo "My second command"
+
+      - name: Test env variables
+        run: |
+          echo "${{ env.my_first_var }}"
+          echo "${{ env.my_second_var }}"
