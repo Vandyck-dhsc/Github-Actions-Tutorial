@@ -5,6 +5,10 @@ on: push
 jobs:
   passing_values_btw_steps:
     runs-on: ubuntu-latest
+    outputs:
+      var1_name: ${{ steps.var_source_step.outputs.var1_name }}
+      var2_date: ${{ steps.var_source_step.outputs.var2_date }}
+
     steps: 
       - name: Set the value using ENV Vars
         run: |
@@ -17,9 +21,18 @@ jobs:
           echo "var1_name=TechSchool" >> $GITHUB_OUTPUT
           echo "var2_date=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_OUTPUT
 
-      - name: Get variable value
+      - name: Get variable value (same job)
         run: |
-          echo "Printing the values"
           echo "variable_name: ${{ env.variable_name }}"
           echo "var1_name: ${{ steps.var_source_step.outputs.var1_name }}"
           echo "var2_date: ${{ steps.var_source_step.outputs.var2_date }}"
+
+  use_values_in_another_job:
+    runs-on: ubuntu-latest
+    needs: passing_values_btw_steps
+    steps:
+      - name: Use outputs from previous job
+        run: |
+          echo "Accessing outputs from previous job:"
+          echo "var1_name: ${{ needs.passing_values_btw_steps.outputs.var1_name }}"
+          echo "var2_date: ${{ needs.passing_values_btw_steps.outputs.var2_date }}"
